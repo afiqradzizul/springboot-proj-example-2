@@ -1,0 +1,509 @@
+Delivered-To: afiqradzizul@gmail.com
+Received: by 2002:a5d:8744:0:0:0:0:0 with SMTP id k4csp4097561iol;
+        Tue, 13 Apr 2021 03:13:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzMR6t5g7L5ublgvDMdoZM3nu2BOm1gAriK59XjBTxKcQOU3AFn1zmkwkRghxFoLXN4Qtie
+X-Received: by 2002:a17:90a:4410:: with SMTP id s16mr3935506pjg.203.1618308781120;
+        Tue, 13 Apr 2021 03:13:01 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1618308781; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=omrPKjcKS9f8liipRSW5DSwQiYmCFv27xe5Fvu5I6KtFPtFB4/9bdmmfx+AZM5cOKw
+         oJWxSZUjf2Y5Y9CvlLBi75xXDJBqPEHnmsbXyozu4uRya4i4y5Wl7Pt5r1TnceVQzr6e
+         sHATt0YeNu48oBQF0f3DDoVhe4eSy2fy5IPXmO88QhryKaG9qzpnKz6nRkrEyIi1QU6V
+         eqJT7GC35kj67Bl48b7GBdYIvmpp+BS7yR+MwBOSxRZioiT53cZ1T+MEXYsUXmjMyUGf
+         rXQ390dAlxrUInq1JUhgbsfJDtaPoY/zY0rOz0d6vzxgVIuIercaWVw7GutEJ5LrBYCp
+         mcww==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:content-language:accept-language:in-reply-to
+         :references:message-id:date:thread-index:thread-topic:subject:to
+         :from:dkim-signature;
+        bh=UN2enwsytSYUBevxqgh14B8LhebeX2WGkHbu+g0iWaA=;
+        b=abzB6MUjMJg2IWXGBK1pB/Zqvn8qg2Q9YFjqP21R0JqBRg6yJlE+n3WfpG7SxGQsoN
+         tNXZkp+VCXag1ld3HUiSwYB/e89TcBqdWNQBUTe8TGNl9fuaqC/XlFSotKz5fmErn0DC
+         NREa1BGNFrwCNbQ7sFuMShdPkCS2OIzma1iSPaWwDNDaoBE3HWhcU7CVujpmt4nBsSMv
+         4G4nySgTTw2TFBRR4U3C/BfCX6tT48IXESbBrVXRhv8AJt+i2xnkg6DXPnwH6LTJMaLy
+         oFVyqo58npBGmYWHk7cmNJ4h14aDAheTzvlkIB85CSvraFl/VBkfB2808ijS00wzvamz
+         4I3w==
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@iforte.com.my header.s=selector1 header.b=OeyP9bmc;
+       arc=pass (i=1 spf=pass spfdomain=iforte.com.my dkim=pass dkdomain=iforte.com.my dmarc=pass fromdomain=iforte.com.my);
+       spf=softfail (google.com: domain of transitioning koijun.tham@iforte.com.my does not designate 40.107.131.129 as permitted sender) smtp.mailfrom=Koijun.tham@iforte.com.my
+Return-Path: <Koijun.tham@iforte.com.my>
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-eopbgr1310129.outbound.protection.outlook.com. [40.107.131.129])
+        by mx.google.com with ESMTPS id s2si18649717pgo.186.2021.04.13.03.13.00
+        for <afiqradzizul@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 13 Apr 2021 03:13:01 -0700 (PDT)
+Received-SPF: softfail (google.com: domain of transitioning koijun.tham@iforte.com.my does not designate 40.107.131.129 as permitted sender) client-ip=40.107.131.129;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@iforte.com.my header.s=selector1 header.b=OeyP9bmc;
+       arc=pass (i=1 spf=pass spfdomain=iforte.com.my dkim=pass dkdomain=iforte.com.my dmarc=pass fromdomain=iforte.com.my);
+       spf=softfail (google.com: domain of transitioning koijun.tham@iforte.com.my does not designate 40.107.131.129 as permitted sender) smtp.mailfrom=Koijun.tham@iforte.com.my
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cAENBGQRxKETgN9YbMmWQE1XklmxB5YFyUzqH3z3F5L7mL2qqFqd0s8M9eo7hkPrL1Aej+hSKQed9fEFlfTXErYwLIoE1N5vX8SRFXLQwq9MmT074y8bRCtqiKaNPWPWDskbMbzBQ94TSrYYecazAAEVmH+9XKKcJN0Bl93PY4WiSI2Vrz85kH+k/i2AR/+Nc0xwq9T5yqtqry450aEMNNp5qUuh2JjlffEnLJeDdWAw2MNx2RYVBw1nMyHi1ELCyGoajR0XQoQs/dC5IATqctlHeeUnfzjtIhSirRLCp4vetnNAPODaT5jm/FsvjZWm6ijD/DnlIwg3goklsMFk2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UN2enwsytSYUBevxqgh14B8LhebeX2WGkHbu+g0iWaA=;
+ b=kBRmjgn43AmpBhAU3ZTlPgAAIBDAi5IvkRObLYBQB8PKqM49E7A+QcjpXq5dzZJUfjK/btBPPuoavY4yqCOJGu9faXHLH2e3Ed5WTLJ10DiWE01GZOhMlSOmHu6dWwZCxOihi513WO/moQYDOkN/RA/33W1eCLXPD21S7teetkj2zxnbdlcwhpawr3amgT9ssFda96b5TvXF/ywsncveIEZpw4CJfOXgnWF32FNG94xqevMvPw4ML262Rw87qjUFdGbcJR+91XO5yA26TLW+RB+9R6OWKNAYA594vxYV1F5hFvUqguquJoQi0ic9LuIOMCHi04oGv20442WWH/OVCw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=iforte.com.my; dmarc=pass action=none
+ header.from=iforte.com.my; dkim=pass header.d=iforte.com.my; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iforte.com.my;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UN2enwsytSYUBevxqgh14B8LhebeX2WGkHbu+g0iWaA=;
+ b=OeyP9bmcyaujjGyHsVK5+qi29VEwJyoYUM5dDCLDI8RpM8XxIjz36kt11jbsDl+0nO1a70IJjht2l09B0QY9lbuyK5NpnB3d3gOigL3EoBqmQ2XLvy714TEpGbKrtnY2R70cs4VOhkxW3mX3C7HU/7zKdjeET8N90aOyaYlOJzo=
+Received: from KU1PR01MB2024.apcprd01.prod.exchangelabs.com
+ (2603:1096:802:24::18) by KL1PR01MB3793.apcprd01.prod.exchangelabs.com
+ (2603:1096:820:36::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.18; Tue, 13 Apr
+ 2021 10:12:57 +0000
+Received: from KU1PR01MB2024.apcprd01.prod.exchangelabs.com
+ ([fe80::ed43:6898:e0ac:e0ef]) by KU1PR01MB2024.apcprd01.prod.exchangelabs.com
+ ([fe80::ed43:6898:e0ac:e0ef%3]) with mapi id 15.20.4020.022; Tue, 13 Apr 2021
+ 10:12:57 +0000
+From: Koijun Tham <Koijun.tham@iforte.com.my>
+To: "afiqradzizul@gmail.com" <afiqradzizul@gmail.com>
+Subject: Interview invitation from Maybank
+Thread-Topic: Interview invitation from Maybank
+Thread-Index: AdcoONisB5TQr2oLRMmeRR2CFRTirwDXEUmgADILlfAA+FBwMAAADPvAAAOuNDA=
+Date: Tue, 13 Apr 2021 10:12:57 +0000
+Message-ID:
+ <KU1PR01MB2024F94681F75B2DBB96A330AE4F9@KU1PR01MB2024.apcprd01.prod.exchangelabs.com>
+References:
+ <KU1PR01MB202448CB55AC36FA882298E3AE799@KU1PR01MB2024.apcprd01.prod.exchangelabs.com>
+ <KU1PR01MB2024D25B22C0A45B6C8AB35BAE759@KU1PR01MB2024.apcprd01.prod.exchangelabs.com>
+ <KU1PR01MB202416CBFFC63F5E1CAA31D4AE749@KU1PR01MB2024.apcprd01.prod.exchangelabs.com>
+ <KU1PR01MB2024224681D9698776134A0DAE4F9@KU1PR01MB2024.apcprd01.prod.exchangelabs.com>
+ <KU1PR01MB20243C7EAE66D15850753878AE4F9@KU1PR01MB2024.apcprd01.prod.exchangelabs.com>
+In-Reply-To:
+ <KU1PR01MB20243C7EAE66D15850753878AE4F9@KU1PR01MB2024.apcprd01.prod.exchangelabs.com>
+Accept-Language: en-MY, zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator:
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=iforte.com.my;
+x-originating-ip: [115.135.122.155]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ca6aa593-5fbf-40e7-dfeb-08d8fe64b607
+x-ms-traffictypediagnostic: KL1PR01MB3793:
+x-microsoft-antispam-prvs:
+ <KL1PR01MB3793083DBD4D3DDCB2BE8469AE4F9@KL1PR01MB3793.apcprd01.prod.exchangelabs.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ K58666UKxrjyDGBVgIUy0iRsW8tqNfJiDaG0GYXssuEi50yBTzL/ITHdMcXOmCU7ZPfIEPruwDm0XBqLuh/TLkfeG5AAQKf5azRAtpNvnHFl4YVqu3flR4eTAFdC923pNbKqOw0t8tpowsg0SUs3AWhNXzleRqQgoZZ0E/QI/Mhht9Ve/SZBZmSqXygRxq18TpR41VtOgzzzKEIyNO9Dg+g3izQUk/WB1eFHQTk3pc0IvEQv+9K9h1FRVd2t01SmSM6sliNzp8tFD8CEYBk9BhCag5EsLxr5pmsCVQzosT3qVpyiR3euzXFNPdo/vEb+CjzV+CsA8hscvj9aI5OMT5u+YS7O6uh/fJG0K3RgVf0ZHX0H9xReeNJa7wovTeAuJYUn3J6Pt1aUyv3dXJH8477H5Kd8b0vxbBw2QzPHGr0lkVtTpIYZ+9ivxnCppUbmQxJLuV/bb+gLVQRjmlQW65T0Vm1CaWLjun01uzSr25LrBemPywiBzphjY8JzpDrci2VR5FxWMuQUyqRvwt41qnLhCyYcKbmHw7tEFTeP7s5lGkjKcWRNTK3lyKOIVNao4JT4xai/pSy7dfZILAM+wrOqk6EdRm5BeBJk1LCaqP/Ih36wMf8pwW5bUP6vnftGi1fqHdbqxcoKiEJCRaVHjzZad/sxK7PgH1cJDdKR+Ub5bRfkXBDBH10PgNC7ePMv
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KU1PR01MB2024.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(136003)(346002)(366004)(376002)(39830400003)(396003)(316002)(6916009)(2940100002)(99936003)(2906002)(86362001)(166002)(52536014)(38100700002)(4744005)(55016002)(33656002)(9686003)(26005)(5660300002)(71200400001)(55236004)(3480700007)(7696005)(8936002)(64756008)(66616009)(478600001)(66556008)(83380400001)(66476007)(66446008)(186003)(8676002)(66946007)(966005)(76116006)(9326002)(6506007)(122000001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata:
+ =?us-ascii?Q?eFERkz1ZGbKQPOIYDib7sMaxbb1ixJKxhiJwp5vDtZlmpmAYKSqS8VqwNGRA?=
+ =?us-ascii?Q?NwdpY6egZICEdvp42zzZlbJqaUNrp1YS8KV2aMFfhHwWw4IZtSd6PMFFatjN?=
+ =?us-ascii?Q?Yg+W3Kqh+9vpdG2saA1CW7bUmVmwQFAjBtxfyB3gtcyh+xHknbGcSzSwdFHS?=
+ =?us-ascii?Q?M4pXxi125hZlgBnSb28UmlS10YMpOKkFVlcgDbQMYG2YDrkgEnmFwVQZ7ngS?=
+ =?us-ascii?Q?LcEXjrvFttoAwxGzqoQK05D9JCBUMNZvs3VQnlJjDc0FXjQStOxp7dsC9Smh?=
+ =?us-ascii?Q?ygknDz4UungaVEhfMXGSISxSp4Bjd1eXO8qUZZM6TcnmKeI5o3C6qTTU+HP0?=
+ =?us-ascii?Q?2S3V0kJoFkDwP9+FyRJNKtfSzMXQBMkp8G4czP/CNIMf6Xmze4U8lW8p7BrR?=
+ =?us-ascii?Q?8YjpKgAU27uRdP58Y7ZDGDnQmh4pnr3L5/yK+dXs7po8HhXJZuwLJTfrPMir?=
+ =?us-ascii?Q?S9xbl1DAxUikraGra2hI631rXHNa4+Sr4JXUf6vOFARzYaM5rqJ0qB2b82DV?=
+ =?us-ascii?Q?MJGnf4LBQsV/fIrNioY57J8chmsGh78HKO5hheiUlOjNepcAf8bS+iBJF1dT?=
+ =?us-ascii?Q?C3K1ivwthKVP94vMpi2ur9INtdEdxSvyXR6AT85iKvRjAP7A0EQqo/QSekwn?=
+ =?us-ascii?Q?9H5QGcigv8SGGxbo7e5bJOLVVfVUxbjOqWEK25uKCLz9FYw/K4Dw4zbN86BN?=
+ =?us-ascii?Q?dWWxdQsBu0UPonGzpJ/XKao12ld4g+EW3W/3np1D/g1Cql8USEDVknO44/PB?=
+ =?us-ascii?Q?Wb/VytcxDQZWMy2N8Wh7ePzPxrvKEfg4FXuk9LMzM/Hhe9ITy4CEKuOWezII?=
+ =?us-ascii?Q?woOn7Ux2ucu6KsOvgGUorgfSmawfOBS3Aa7uJh5uE1fub05yY5hIA9MOnzcf?=
+ =?us-ascii?Q?tvTxr5AX7UngjeRqk5NwjNTRGEq+pxmyjzs9wPttcOktNsqPAbyXP/RF/qZU?=
+ =?us-ascii?Q?EMUhO2SBD2Yc6wN1vmvbbYwFLqcQP3rS0aflTkWxCEq9HUj1CL1GUv2hH9wO?=
+ =?us-ascii?Q?vFvtBTK5o8qg1Rx3/p+4RS7+xDBAjAkwFnds8dE7ISZaJX8R9w0L574BxK/J?=
+ =?us-ascii?Q?GrcYye20IDRsnMqpEMWw8fb/VwDMCFbipLkCPs5KU1YlWgVJLxbTUBDypU3T?=
+ =?us-ascii?Q?P+tAIePSKl0pFz1u34ZKTF793hWzJGD9o7rlqYVbshoio8RhRwr2NEeczMvi?=
+ =?us-ascii?Q?u96fDMuu/TQWQl5o8tm17vhnAliaBPTA6JUyLQBM5TphXlbUtQR4gZbL+wAT?=
+ =?us-ascii?Q?+sJEl6QJTmbYtNK3MKeIlY7i49XxKcUczk8bdMxzjYcTivKFW0WqiXW1hUKQ?=
+ =?us-ascii?Q?SSuJGc/bOL9rSz1mNI+yzaJI?=
+x-ms-exchange-transport-forked: True
+Content-Type: multipart/mixed;
+	boundary="_004_KU1PR01MB2024F94681F75B2DBB96A330AE4F9KU1PR01MB2024apcp_"
+MIME-Version: 1.0
+X-OriginatorOrg: iforte.com.my
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: KU1PR01MB2024.apcprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca6aa593-5fbf-40e7-dfeb-08d8fe64b607
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Apr 2021 10:12:57.4140
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: e5bd8029-599f-4d02-86f0-56e8b2777cec
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: MW9Pvpcc/vmfjSfFKm+P/MaOrYsVfc6dVUKYQAFyqTHBzNrk+qemM7H8BuvRfLfCvY7+YzlnbBFe/pQU97m8DZBCpiD7Kv6LsUNvQ8mR6zA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR01MB3793
+
+--_004_KU1PR01MB2024F94681F75B2DBB96A330AE4F9KU1PR01MB2024apcp_
+Content-Type: multipart/alternative;
+	boundary="_000_KU1PR01MB2024F94681F75B2DBB96A330AE4F9KU1PR01MB2024apcp_"
+
+--_000_KU1PR01MB2024F94681F75B2DBB96A330AE4F9KU1PR01MB2024apcp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Afiq,
+
+Please complete the following assignment & present during the interview ses=
+sion at 6.30pm, Monday :
+
+
+  1.  Prepare a batch job to consume the attached text file.
+  2.  Prepare RESTFUL API to retrieve the records (from item #1).
+     *   Must have authentication
+     *   Must have pagination
+     *   Can search by customer ID or account number(s) or description
+
+Notes :-
+
+  1.  Using Java Spring Boot.
+  2.  Free to design the database structure.
+  3.  Allowed to use many classes. (OOP is preferable)
+  4.  Must follow RESTFUL API standard.
+  5.  Code need to be shared.
+  6.  Pls brief if you are using any Design pattern and why you choose it.
+  7.  Documentation is required. (Class diagram and activity diagram)
+
+Please share the following link to Afiq and ensure he complete assessment a=
+s he will need to present it during the interview session :
+
+
+Join Zoom Meeting
+https://maybank.zoom.us/j/86514725921
+
+Meeting ID: 865 1472 5921
+Password: Eric@21
+
+
+
+Best Regards,
+Eric Hong
+Human Capital, Group Technology
+
+
+--_000_KU1PR01MB2024F94681F75B2DBB96A330AE4F9KU1PR01MB2024apcp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Trebuchet MS";
+	panose-1:2 11 6 3 2 2 2 2 2 4;}
+@font-face
+	{font-family:"\@DengXian";
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle19
+	{mso-style-type:personal-reply;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:1168211421;
+	mso-list-template-ids:-1690121558;}
+@list l0:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1
+	{mso-list-id:1367415366;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-561629420 1141440527 1141440537 1141440539 11414405=
+27 1141440537 1141440539 1141440527 1141440537 1141440539;}
+@list l1:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l1:level4
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l1:level7
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l2
+	{mso-list-id:1553617660;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1048495844 1141440527 1141440537 1141440539 11414405=
+27 1141440537 1141440539 1141440527 1141440537 1141440539;}
+@list l2:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l2:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l2:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l2:level4
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l2:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l2:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l2:level7
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l2:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l2:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l3
+	{mso-list-id:1766337023;
+	mso-list-template-ids:-1372041874;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-MY" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
+break-word">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Hi Afiq, <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><b><span lang=3D"EN-US">Please complete the followin=
+g assignment &amp; present during the interview session at 6.30pm, Monday :
+<o:p></o:p></span></b></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-family:&quot;Treb=
+uchet MS&quot;,sans-serif"><o:p>&nbsp;</o:p></span></p>
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" style=3D"border-collapse:collapse">
+<tbody>
+<tr>
+<td width=3D"506" valign=3D"top" style=3D"width:379.8pt;border:solid window=
+text 1.0pt;padding:0in 5.4pt 0in 5.4pt">
+<ol style=3D"margin-top:0in" start=3D"1" type=3D"1">
+<li class=3D"MsoNormal" style=3D"mso-list:l2 level1 lfo3">Prepare a batch j=
+ob to consume the attached text file.<o:p></o:p></li><li class=3D"MsoNormal=
+" style=3D"mso-list:l2 level1 lfo3">Prepare RESTFUL API to retrieve the rec=
+ords (from item #1).
+<o:p></o:p></li><ol style=3D"margin-top:0in" start=3D"1" type=3D"a">
+<li class=3D"MsoNormal" style=3D"mso-list:l2 level2 lfo3">Must have authent=
+ication<o:p></o:p></li><li class=3D"MsoNormal" style=3D"mso-list:l2 level2 =
+lfo3">Must have pagination <o:p></o:p></li><li class=3D"MsoNormal" style=3D=
+"mso-list:l2 level2 lfo3">Can search by customer ID or account number(s) or=
+ description<o:p></o:p></li></ol>
+</ol>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Notes :-<o:p></o:p></p>
+<ol style=3D"margin-top:0in" start=3D"1" type=3D"1">
+<li class=3D"MsoNormal" style=3D"mso-list:l1 level1 lfo6">Using Java Spring=
+ Boot.<o:p></o:p></li><li class=3D"MsoNormal" style=3D"mso-list:l1 level1 l=
+fo6">Free to design the database structure.<o:p></o:p></li><li class=3D"Mso=
+Normal" style=3D"mso-list:l1 level1 lfo6">Allowed to use many classes. (OOP=
+ is preferable)<o:p></o:p></li><li class=3D"MsoNormal" style=3D"mso-list:l1=
+ level1 lfo6">Must follow RESTFUL API standard.<o:p></o:p></li><li class=3D=
+"MsoNormal" style=3D"mso-list:l1 level1 lfo6">Code need to be shared.<o:p><=
+/o:p></li><li class=3D"MsoNormal" style=3D"mso-list:l1 level1 lfo6">Pls bri=
+ef if you are using any Design pattern and why you choose it.<o:p></o:p></l=
+i><li class=3D"MsoNormal" style=3D"mso-list:l1 level1 lfo6">Documentation i=
+s required. (Class diagram and activity diagram)<span style=3D"font-size:12=
+.0pt;font-family:&quot;Times New Roman&quot;,serif"><o:p></o:p></span></li>=
+</ol>
+</td>
+</tr>
+</tbody>
+</table>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:#1F497D"><o:p>&n=
+bsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Please share the following link=
+ to Afiq and ensure he complete assessment as he will need to present it du=
+ring the interview session :<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<div>
+<p class=3D"MsoNormal" style=3D"background:white"><span lang=3D"EN-US"><o:p=
+>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Join Zoom Meeting<o:p></o:p></s=
+pan></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><a href=3D"https://maybank.zoom=
+.us/j/86514725921">https://maybank.zoom.us/j/86514725921</a>
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Meeting ID: 865 1472 5921<o:p><=
+/o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Password: Eric@21<o:p></o:p></s=
+pan></p>
+<p class=3D"MsoNormal" style=3D"background:white"><span lang=3D"EN-US"><o:p=
+>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:white"><span lang=3D"EN-US"><o:p=
+>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:white"><span lang=3D"EN-US"><o:p=
+>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:white"><span lang=3D"EN-US" styl=
+e=3D"font-size:9.0pt;font-family:&quot;Trebuchet MS&quot;,sans-serif;color:=
+black">Best Regards,</span><span lang=3D"EN-US" style=3D"font-size:9.0pt;co=
+lor:#212121"><o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"background:white;vertical-align:baseline"><=
+span lang=3D"EN-US" style=3D"font-size:9.0pt;font-family:&quot;Trebuchet MS=
+&quot;,sans-serif;color:black">Eric Hong</span><span lang=3D"EN-US" style=
+=3D"font-size:9.0pt;color:#212121"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:9.0pt;font-f=
+amily:&quot;Trebuchet MS&quot;,sans-serif;color:#222A35">Human Capital, Gro=
+up Technology</span><span lang=3D"EN-US" style=3D"color:#1F497D"><o:p></o:p=
+></span></p>
+</div>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:#1F497D"><o:p>&n=
+bsp;</o:p></span></p>
+</div>
+</body>
+</html>
+
+--_000_KU1PR01MB2024F94681F75B2DBB96A330AE4F9KU1PR01MB2024apcp_--
+
+--_004_KU1PR01MB2024F94681F75B2DBB96A330AE4F9KU1PR01MB2024apcp_
+Content-Type: text/plain; name="dataSource.txt"
+Content-Description: dataSource.txt
+Content-Disposition: attachment; filename="dataSource.txt"; size=2909;
+	creation-date="Thu, 08 Apr 2021 09:55:00 GMT";
+	modification-date="Thu, 08 Apr 2021 09:56:22 GMT"
+Content-Transfer-Encoding: base64
+
+QUNDT1VOVF9OVU1CRVJ8VFJYX0FNT1VOVHxERVNDUklQVElPTnxUUlhfREFURXxUUlhfVElNRXxD
+VVNUT01FUl9JRA0KODg3MjgzODI4M3wxMjMuMDB8RlVORCBUUkFOU0ZFUnwyMDE5LTA5LTEyfDEx
+OjExOjExfDIyMg0KODg3MjgzODI4M3wxMTIzLjAwfEFUTSBXSVRIRFJXQUx8MjAxOS0wOS0xMXwx
+MToxMToxMXwyMjINCjg4NzI4MzgyODN8MTIyMy4wMHxGVU5EIFRSQU5TRkVSfDIwMTktMTAtMTF8
+MTE6MTE6MTF8MjIyDQo4ODcyODM4MjgzfDEyMzMuMDB8M3JkIFBhcnR5IEZVTkQgVFJBTlNGRVJ8
+MjAxOS0xMS0xMXwxMToxMToxMXwyMjINCjg4NzI4MzgyODN8MTI0My4wMHwzcmQgUGFydHkgRlVO
+RCBUUkFOU0ZFUnwyMDE5LTA4LTExfDExOjExOjExfDIyMg0KODg3MjgzODI4M3wxMjU1My4wMHwz
+cmQgUGFydHkgRlVORCBUUkFOU0ZFUnwyMDE5LTA3LTExfDExOjExOjExfDIyMg0KODg3MjgzODI4
+M3wxMjExMy4wMHxCSUxMIFBBWU1FTlR8MjAxOS0wOC0xMXwxMToxMToxMXwyMjINCjg4NzI4Mzgy
+ODN8MTIyMi4wMHxCSUxMIFBBWU1FTlR8MjAxOS0wOS0xMXwxMToxMToxMXwyMjINCjg4NzI4Mzgy
+ODN8MjEyMy4wMHxGVU5EIFRSQU5TRkVSfDIwMTktMDktMTF8MTE6MTE6MTF8MjIyDQo4ODcyODM4
+MjgzfDEzMjMuMDB8RlVORCBUUkFOU0ZFUnwyMDE5LTA5LTExfDExOjExOjExfDIyMg0KODg3Mjgz
+ODI4M3wxMjQ0My4wMHxGVU5EIFRSQU5TRkVSfDIwMTktMDktMTF8MTE6MTE6MTF8MjIyDQo4ODcy
+ODM4MjgzfDEyNTU1My4wMHxGVU5EIFRSQU5TRkVSfDIwMTktMDktMTF8MTE6MTE6MTF8MjIyDQo4
+ODcyODM4MjgzfDEyNjY2My4wMHxGVU5EIFRSQU5TRkVSfDIwMTktMDktMTF8MTE6MTE6MTF8MjIy
+DQo4ODcyODM4MjgzfDEyNjY2NjMuMDB8RlVORCBUUkFOU0ZFUnwyMDE5LTA5LTExfDExOjExOjEx
+fDIyMg0KODg3MjgzODI5OXwxMTIxMjIzLjAwfEZVTkQgVFJBTlNGRVJ8MjAxOS0wOS0xMXwxMTox
+MToxMXwyMjINCjg4NzI4MzgyOTl8MTIyMzEyMzMuMDB8RlVORCBUUkFOU0ZFUnwyMDE5LTA5LTEx
+fDExOjExOjExfDIyMg0KODg3MjgzODI5OXwxMTExMjMuMDB8RlVORCBUUkFOU0ZFUnwyMDE5LTA5
+LTExfDExOjExOjExfDIyMg0KODg3MjgzODI5OXwxMjIyMy4wMHxCSUxMIFBBWU1FTlR8MjAxOS0w
+OS0xMXwxMToxMToxMXwyMjINCjg4NzI4MzgyOTl8MTIyMzIzMy4wMHxCSUxMIFBBWU1FTlR8MjAx
+OS0wOS0xMXwxMToxMToxMXwyMjINCjg4NzI4MzgyOTl8MTIyMzIzMy4wMHxBVE0gV0lUSERSV0FM
+fDIwMTktMDktMTF8MTE6MTE6MTF8MjIyDQo4ODcyODM4Mjk5fDEyMjMxMjMyMzMuMDB8QVRNIFdJ
+VEhEUldBTHwyMDE5LTA5LTExfDExOjExOjExfDIyMg0KODg3MjgzODI5OXwxMjIzMjMzLjAwfDNy
+ZCBQYXJ0eSBGVU5EIFRSQU5TRkVSfDIwMTktMDktMTF8MTE6MTE6MTF8MjIyDQo4ODcyODM4Mjk5
+fDEyMjMyMTMzLjAwfDNyZCBQYXJ0eSBGVU5EIFRSQU5TRkVSfDIwMTktMDktMTF8MTE6MTE6MTF8
+MjIyDQo4ODcyODM4Mjk5fDEyMjMyMzMuMDB8M3JkIFBhcnR5IEZVTkQgVFJBTlNGRVJ8MjAxOS0w
+OS0xMXwxMToxMToxMXwyMjINCjg4NzI4MzgyOTl8MTExMTEyMy4wMHxCSUxMIFBBWU1FTlR8MjAx
+OS0wOS0xMXwxMToxMToxMXwyMjINCjg4NzI4MzgyOTl8MTIyMjIzLjAwfEJJTEwgUEFZTUVOVHwy
+MDE5LTA5LTExfDExOjExOjExfDIyMg0KODg3MjgzODI5OXwxMjIyMjIzLjAwfEJJTEwgUEFZTUVO
+VHwyMDE5LTA5LTExfDExOjExOjExfDIyMg0KODg3MjgzODI5OXwxMjIzMjMzLjAwfEZVTkQgVFJB
+TlNGRVJ8MjAxOS0wOS0xMXwxMToxMToxMXwyMjINCjg4NzI4MzgyOTl8MTExMjMuMDB8RlVORCBU
+UkFOU0ZFUnwyMDE5LTA5LTExfDExOjExOjExfDIyMg0KODg3MjgzODI5OXwxMjIzMjMzLjAwfEZV
+TkQgVFJBTlNGRVJ8MjAxOS0wOS0xMXwxMToxMToxMXwyMjINCjg4NzI4MzgyOTl8MTIzNjY2LjAw
+fEZVTkQgVFJBTlNGRVJ8MjAxOS0wOS0xMXwxMToxMToxMXwyMjINCjY4NzI4MzgyNjB8MS4wMHxC
+SUxMIFBBWU1FTlR8MjAxOS0wOS0xMXwxMToxMToxMXwzMzMNCjY4NzI4MzgyNjB8MTIyMy4wMHxC
+SUxMIFBBWU1FTlR8MjAxOS0wOS0xMnwxMToxMToxMXwzMzMNCjY4NzI4MzgyNjB8MTIzMjMuMDB8
+QklMTCBQQVlNRU5UfDIwMTktMDktMTN8MTE6MTE6MTF8MzMzDQo2ODcyODM4MjYwfDEyMzIzLjAw
+fEJJTEwgUEFZTUVOVHwyMDE5LTA5LTExfDExOjExOjExfDMzMw0KNjg3MjgzODI2MHwxMjEyMzMu
+MDB8QklMTCBQQVlNRU5UfDIwMTktMDktMTF8MTE6MTE6MTF8MzMzDQo2ODcyODM4MjYwfDE5OTIz
+LjAwfEJJTEwgUEFZTUVOVHwyMDE5LTA5LTExfDExOjExOjExfDMzMw0KNjg3MjgzODI2MHwxMjg5
+My4wMHxCSUxMIFBBWU1FTlR8MjAxOS0wOS0xM3wxMToxMToxMXwzMzMNCjY4NzI4MzgyNjB8OTkx
+MjMuMDB8RlVORCBUUkFOU0ZFUnwyMDE5LTA5LTE0fDExOjExOjExfDMzMw0KNjg3MjgzODI2MHwx
+OTkyMy4wMHxGVU5EIFRSQU5TRkVSfDIwMTktMDktMTF8MTE6MTE6MTF8MzMzDQo2ODcyODM4MjYw
+fDEyOTkzLjAwfEZVTkQgVFJBTlNGRVJ8MjAxOS0wOS0xMXwxMToxMToxMXwzMzMNCjY4NzI4Mzgy
+NjB8MTI5OTMuMDB8RlVORCBUUkFOU0ZFUnwyMDE5LTA5LTE1fDExOjExOjExfDMzMw0KNjg3Mjgz
+ODI2MHwxMjk5My4wMHxGVU5EIFRSQU5TRkVSfDIwMTktMDktMTF8MTE6MTE6MTF8MzMzDQo2ODcy
+ODM4MjYwfDEyOTkzLjAwfEZVTkQgVFJBTlNGRVJ8MjAxOS0wOS0xNnwxMToxMToxMXwzMzMNCjY4
+NzI4MzgyNjB8MTI5OTMuMDB8RlVORCBUUkFOU0ZFUnwyMDE5LTA5LTE3fDExOjExOjExfDMzMw0K
+Njg3MjgzODI2MHw5MTIzLjAwfEZVTkQgVFJBTlNGRVJ8MjAxOS0wOS0xMXwxMToxMToxMXwzMzMN
+CjY4NzI4MzgyNjB8MTkyMy4wMHxGVU5EIFRSQU5TRkVSfDIwMTktMDktMTF8MTE6MTE6MTF8MzMz
+DQo=
+
+--_004_KU1PR01MB2024F94681F75B2DBB96A330AE4F9KU1PR01MB2024apcp_--
